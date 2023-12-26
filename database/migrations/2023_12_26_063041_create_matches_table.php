@@ -15,8 +15,11 @@ return new class extends Migration
     {
         Schema::create('matches', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('club_id');
-            $table->unsignedInteger('score');
+            $table->unsignedBigInteger('club1_id');
+            $table->unsignedBigInteger('club2_id');
+            $table->unsignedInteger('score1');
+            $table->unsignedInteger('score2');
+            $table->unsignedInteger('count')->default(1);
             $table->timestamps();
         });
     }

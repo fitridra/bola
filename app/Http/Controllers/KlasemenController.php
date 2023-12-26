@@ -23,20 +23,28 @@ class KlasemenController extends Controller
         $standings = [];
 
         foreach ($clubs as $club) {
-            $matchesAsClub = $club->matchesAsClub;
+            $matchesAsClub1 = $club->matchesAsClub1 ?? collect();
+            $matchesAsClub2 = $club->matchesAsClub2 ?? collect();
 
-            $played = $matchesAsClub->count();
-            $won = $matchesAsClub->where('score')->count();
+            $played = $matchesAsClub1->count() + $matchesAsClub2->count();
+            $won = $matchesAsClub1->where('score1', '>', 'score2')->count();
+            $drawn = $matchesAsClub1->where('score1', '=', 'score2')->count() +
+                    $matchesAsClub2->where('score2', '=', 'score1')->count();
+            $lost = $matchesAsClub1->where('score1', '<', 'score2')->count();
 
-            $goals = $matchesAsClub->sum('score');
+            $goalsFor = $matchesAsClub1->sum('score1') + $matchesAsClub2->sum('score2');
+            $goalsAgainst = $matchesAsClub1->sum('score2') + $matchesAsClub2->sum('score1');
 
-            $points = $won * 3;
+            $points = $won * 3 + $drawn;
 
             $standings[] = [
                 'club' => $club->name,
                 'played' => $played,
                 'won' => $won,
-                'goals' => $goals,
+                'drawn' => $drawn,
+                'lost' => $lost,
+                'goals_for' => $goalsFor,
+                'goals_against' => $goalsAgainst,
                 'points' => $points,
             ];
         }

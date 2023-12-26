@@ -17,11 +17,17 @@ class MatchController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'club_id' => 'required',
-            'score' => 'required',
+            'club1_id' => 'required',
+            'club2_id' => 'required',
+            'score1' => 'required',
+            'score2' => 'required',
+            'count' => 'required',
             
-            'club_id.*' => 'required|exists:clubs,id',
-            'score.*' => 'required|integer|min:0'
+            'club1_id.*' => 'required|exists:clubs,id',
+            'club2_id.*' => 'required|exists:clubs,id|different:club1_id.*',
+            'score1.*' => 'required|integer|min:0',
+            'score2.*' => 'required|integer|min:0',
+            'count.*' => 'required|integer|min:1',
         ]);
 
         Matches::create($request->all());

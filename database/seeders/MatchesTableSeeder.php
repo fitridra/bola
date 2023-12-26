@@ -16,8 +16,8 @@ class MatchesTableSeeder extends Seeder
     public function run()
     {
         $matchesData = [
-            ['club_id' => 1, 'score' => 2],
-            ['club_id' => 2, 'score' => 1],
+            ['club1_id' => 1, 'club2_id' => 2, 'score1' => 2, 'score2' => 1, 'count' => 1],
+            ['club1_id' => 2, 'club2_id' => 3, 'score1' => 1, 'score2' => 1, 'count' => 1],
         ];
 
         foreach ($matchesData as $matchData) {

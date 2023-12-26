@@ -8,10 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Matches extends Model
 {
     use HasFactory;
-    protected $fillable = ['club_id', 'score'];
+    protected $fillable = ['club1_id', 'club2_id', 'score1', 'score2', 'count'];
 
-    public function club()
+    public function club1()
     {
-        return $this->belongsTo(Club::class, 'club_id');
+        return $this->belongsTo(Club::class, 'club1_id');
+    }
+
+    public function club2()
+    {
+        return $this->belongsTo(Club::class, 'club2_id');
     }
 }

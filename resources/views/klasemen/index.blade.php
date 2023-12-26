@@ -33,16 +33,28 @@
                     @csrf
                     <div class="row">
                         <div class="col">
-                            <select name="club_id" class="form-control" id="taskDropdown">
-                                <option value="" disabled selected>Pilih Club</option>
+                            <select name="club1_id" class="form-control" id="taskDropdown">
+                                <option value="" disabled selected>Pilih Club 1</option>
                                 @foreach($clubs as $club)
                                 <option value="{{$club['id']}}">{{$club['name']}} - {{$club['city']}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col">
-                            <input name="score" type="text" class="form-control" id="formGroupExampleInput"
-                                placeholder="Masukkan Score" required>
+                            <select name="club2_id" class="form-control" id="taskDropdown">
+                                <option value="" disabled selected>Pilih Club 2</option>
+                                @foreach($clubs as $club)
+                                <option value="{{$club['id']}}">{{$club['name']}} - {{$club['city']}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col">
+                            <input name="score1" type="number" class="form-control" id="formGroupExampleInput"
+                                placeholder="Masukkan Score Club 1" required>
+                        </div>
+                        <div class="col">
+                            <input name="score2" type="number" class="form-control" id="formGroupExampleInput"
+                                placeholder="Masukkan Score Club 2" required>
                         </div>
                     </div>
             </div>
@@ -64,7 +76,10 @@
                         <th>Club</th>
                         <th>Main</th>
                         <th>Menang</th>
-                        <th>Gol</th>
+                        <th>Seri</th>
+                        <th>Kalah</th>
+                        <th>Gol Menang</th>
+                        <th>Gol Kalah</th>
                         <th>Poin</th>
                     </tr>
                 </thead>
@@ -75,7 +90,10 @@
                         <td>{{ $standing['club'] }}</td>
                         <td>{{ $standing['played'] }}</td>
                         <td>{{ $standing['won'] }}</td>
-                        <td>{{ $standing['goals'] }}</td>
+                        <td>{{ $standing['drawn'] }}</td>
+                        <td>{{ $standing['lost'] }}</td>
+                        <td>{{ $standing['goals_for'] }}</td>
+                        <td>{{ $standing['goals_against'] }}</td>
                         <td>{{ $standing['points'] }}</td>
                     </tr>
                     @endforeach
