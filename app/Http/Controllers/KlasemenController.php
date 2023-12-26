@@ -23,17 +23,29 @@ class KlasemenController extends Controller
         $standings = [];
 
         foreach ($clubs as $club) {
-            $matchesAsClub1 = $club->matchesAsClub1 ?? collect();
-            $matchesAsClub2 = $club->matchesAsClub2 ?? collect();
+            $matches = Matches::where('club1_id', $club->id)
+                ->orWhere('club2_id', $club->id)
+                ->get();
 
-            $played = $matchesAsClub1->count() + $matchesAsClub2->count();
-            $won = $matchesAsClub1->where('score1', '>', 'score2')->count();
-            $drawn = $matchesAsClub1->where('score1', '=', 'score2')->count() +
-                    $matchesAsClub2->where('score2', '=', 'score1')->count();
-            $lost = $matchesAsClub1->where('score1', '<', 'score2')->count();
+            $won = $matches->filter(function ($match) use ($club) {
+                return ($match->club1_id == $club->id && $match->score1 > $match->score2) ||
+                    ($match->club2_id == $club->id && $match->score2 > $match->score1);
+            })->count();
 
-            $goalsFor = $matchesAsClub1->sum('score1') + $matchesAsClub2->sum('score2');
-            $goalsAgainst = $matchesAsClub1->sum('score2') + $matchesAsClub2->sum('score1');
+            $drawn = $matches->filter(function ($match) use ($club) {
+                return ($match->score1 == $match->score2) &&
+                    (($match->club1_id == $club->id) || ($match->club2_id == $club->id));
+            })->count();
+
+            $lost = $matches->filter(function ($match) use ($club) {
+                return ($match->club1_id == $club->id && $match->score1 < $match->score2) ||
+                       ($match->club2_id == $club->id && $match->score2 < $match->score1);
+            })->count();            
+
+            $played = $matches->count() + $matches->count();
+
+            $goalsFor = $matches->sum('score1') + $matches->sum('score2');
+            $goalsAgainst = $matches->sum('score2') + $matches->sum('score1');
 
             $points = $won * 3 + $drawn;
 

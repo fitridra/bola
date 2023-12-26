@@ -33,7 +33,7 @@
                     @csrf
                     <div class="row">
                         <div class="col">
-                            <select name="club1_id" class="form-control" id="taskDropdown">
+                            <select name="club1_id" class="form-control" id="taskDropdown1">
                                 <option value="" disabled selected>Pilih Club 1</option>
                                 @foreach($clubs as $club)
                                 <option value="{{$club['id']}}">{{$club['name']}} - {{$club['city']}}</option>
@@ -41,7 +41,7 @@
                             </select>
                         </div>
                         <div class="col">
-                            <select name="club2_id" class="form-control" id="taskDropdown">
+                            <select name="club2_id" class="form-control" id="taskDropdown2">
                                 <option value="" disabled selected>Pilih Club 2</option>
                                 @foreach($clubs as $club)
                                 <option value="{{$club['id']}}">{{$club['name']}} - {{$club['city']}}</option>
@@ -49,14 +49,15 @@
                             </select>
                         </div>
                         <div class="col">
-                            <input name="score1" type="number" class="form-control" id="formGroupExampleInput"
+                            <input name="score1" type="number" class="form-control" id="formGroupExampleInput1"
                                 placeholder="Masukkan Score Club 1" required>
                         </div>
                         <div class="col">
-                            <input name="score2" type="number" class="form-control" id="formGroupExampleInput"
+                            <input name="score2" type="number" class="form-control" id="formGroupExampleInput2"
                                 placeholder="Masukkan Score Club 2" required>
                         </div>
                     </div>
+                    <input name="count" type="hidden" value="1">
             </div>
             <button type="submit" class="btn btn-primary mr-3">
                 Save
