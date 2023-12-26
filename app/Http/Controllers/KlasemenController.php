@@ -42,10 +42,14 @@ class KlasemenController extends Controller
                        ($match->club2_id == $club->id && $match->score2 < $match->score1);
             })->count();            
 
-            $played = $matches->count() + $matches->count();
+            $played = $matches->count();
 
-            $goalsFor = $matches->sum('score1') + $matches->sum('score2');
-            $goalsAgainst = $matches->sum('score2') + $matches->sum('score1');
+            $goalsFor = $matches->where('club1_id', $club->id)->sum('score1') +
+                        $matches->where('club2_id', $club->id)->sum('score2');
+
+            $goalsAgainst = $matches->where('club1_id', $club->id)->sum('score2') +
+                            $matches->where('club2_id', $club->id)->sum('score1');
+
 
             $points = $won * 3 + $drawn;
 
